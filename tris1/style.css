@@ -1,0 +1,12 @@
+table.griglia td{
+    border: 1px solid black;
+    width: 50px;
+    height: 50px;
+    text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 30px;
+    font-weight: 900;
+}
+table.griglia{
+    border-collapse: collapse;
+}

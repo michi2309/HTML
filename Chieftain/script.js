@@ -18,17 +18,37 @@ var obstacleDistance = 300; // Distanza orizzontale tra gli ostacoli
 var gapSize = 100; // Dimensione del varco tra gli ostacoli
 var minHeight = 50; // Altezza minima degli ostacoli
 var maxHeight = canvas.height - gapHeight - minHeight; // Altezza massima degli ostacoli
+var isGameOver = false; // Flag per indicare se il gioco è terminato
+var birdImage = new Image();
+var obstacleImage = new Image();
+
+birdImage.src = "bird.webp";
+obstacleImage.src = "fv4005.jpg";
 
 function drawBird() {
+    ctx.drawImage(birdImage, bird.x - bird.radius, bird.y - bird.radius, bird.radius * 2, bird.radius * 2);
+}
+
+function drawObstacles() {
+    for (var i = 0; i < obstacles.length; i++) {
+        var obstacle = obstacles[i];
+        ctx.drawImage(obstacleImage, obstacle.x, 0, obstacleWidth, obstacle.gapY);
+        ctx.drawImage(obstacleImage, obstacle.x, obstacle.gapY + gapHeight, obstacleWidth, canvas.height - (obstacle.gapY + gapHeight));
+    }
+}
+
+/*function drawBird() {
     ctx.beginPath();
     ctx.arc(bird.x, bird.y, bird.radius, 0, Math.PI * 2);
     ctx.fillStyle = bird.color;
     ctx.fill();
     ctx.closePath();
-}
+}*/
 
 function jump() {
-    bird.velocityY = jumpForce; // Applica la forza del salto all'uccellino
+    if (!isGameOver) {
+        bird.velocityY = jumpForce; // Applica la forza del salto all'uccellino
+    }
 }
 
 function createObstacle() {
@@ -42,7 +62,7 @@ function createObstacle() {
     obstacles.push(obstacle);
 }
 
-function drawObstacles() {
+/*function drawObstacles() {
     for (var i = 0; i < obstacles.length; i++) {
         var obstacle = obstacles[i];
         ctx.beginPath();
@@ -57,40 +77,71 @@ function drawObstacles() {
         ctx.fill();
         ctx.closePath();
     }
+}*/
+
+function checkCollision() {
+    // Controlla la collisione con il limite superiore del canvas
+    if (bird.y - bird.radius < 0) {
+        isGameOver = true;
+        return;
+    }
+    
+    for (var i = 0; i < obstacles.length; i++) {
+        var obstacle = obstacles[i];
+        if (
+            bird.x + bird.radius > obstacle.x &&
+            bird.x - bird.radius < obstacle.x + obstacleWidth &&
+            (bird.y - bird.radius < obstacle.gapY || bird.y + bird.radius > obstacle.gapY + gapHeight)
+        ) {
+            isGameOver = true;
+            return;
+        }
+    }
 }
 
 function update() {
-    // Applica la gravità
-    bird.velocityY += gravity;
-    
-    // Applica il movimento verticale all'uccellino
-    bird.y += bird.velocityY;
-    
-    // Genera nuovi ostacoli
-    if (obstacles.length === 0 || canvas.width - obstacles[obstacles.length - 1].x > obstacleDistance) {
-        createObstacle();
+    if (!isGameOver) {
+        // Applica la gravità
+        bird.velocityY += gravity;
+
+        // Applica il movimento verticale all'uccellino
+        bird.y += bird.velocityY;
+
+        // Genera nuovi ostacoli
+        if (obstacles.length === 0 || canvas.width - obstacles[obstacles.length - 1].x > obstacleDistance) {
+            createObstacle();
+        }
+
+        // Muovi gli ostacoli
+        for (var i = 0; i < obstacles.length; i++) {
+            obstacles[i].x -= obstacleSpeed;
+        }
+
+        // Rimuovi gli ostacoli che escono dallo schermo
+        if (obstacles.length > 0 && obstacles[0].x + obstacleWidth < 0) {
+            obstacles.shift();
+        }
+
+        // Controlla il limite inferiore del canvas per l'uccellino
+        if (bird.y + bird.radius > canvas.height) {
+            bird.y = canvas.height - bird.radius;
+            bird.velocityY = 0;
+            isGameOver = true;
+        }
+
+        // Controlla le collisioni con gli ostacoli
+        checkCollision();
     }
-    
-    // Muovi gli ostacoli
-    for (var i = 0; i < obstacles.length; i++) {
-        obstacles[i].x -= obstacleSpeed;
-    }
-    
-    // Rimuovi gli ostacoli che escono dallo schermo
-    if (obstacles.length > 0 && obstacles[0].x + obstacleWidth < 0) {
-        obstacles.shift();
-    }
-    
-    // Controlla il limite inferiore del canvas per l'uccellino
-    if (bird.y + bird.radius > canvas.height) {
-        bird.y = canvas.height - bird.radius;
-        bird.velocityY = 0;
-    }
-    
+
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     drawBird();
     drawObstacles();
-    requestAnimationFrame(update);
+
+    if (!isGameOver) {
+        requestAnimationFrame(update);
+    } else {
+     // riattivare dopo   window.location.href = "index.html";
+    }
 }
 
 canvas.width = window.innerWidth;

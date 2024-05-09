@@ -1,12 +1,15 @@
 var canvas = document.getElementById("gameCanvas");
 var ctx = canvas.getContext("2d");
 var bird = {
-    x: 500,
+    x: 50,
     y: canvas.height / 2,
     radius: 20,
-    color: "blue"
+    color: "blue",
+    velocityY: 0 // Velocità verticale iniziale dell'uccellino
 };
-var gravity = 3;
+var gravity = 0.5; // Gravità iniziale
+var jumpForce = -10; // Forza del salto
+var jumpDamping = 0.9; // Coefficiente di smorzamento del salto
 var obstacles = []; // Array per gli ostacoli
 var obstacleSpeed = 2; // Velocità degli ostacoli
 var obstacleWidth = 50; // Larghezza degli ostacoli
@@ -25,7 +28,7 @@ function drawBird() {
 }
 
 function jump() {
-    bird.y -= 125;
+    bird.velocityY = jumpForce; // Applica la forza del salto all'uccellino
 }
 
 function createObstacle() {
@@ -57,7 +60,11 @@ function drawObstacles() {
 }
 
 function update() {
-    bird.y += gravity;
+    // Applica la gravità
+    bird.velocityY += gravity;
+    
+    // Applica il movimento verticale all'uccellino
+    bird.y += bird.velocityY;
     
     // Genera nuovi ostacoli
     if (obstacles.length === 0 || canvas.width - obstacles[obstacles.length - 1].x > obstacleDistance) {
@@ -74,6 +81,12 @@ function update() {
         obstacles.shift();
     }
     
+    // Controlla il limite inferiore del canvas per l'uccellino
+    if (bird.y + bird.radius > canvas.height) {
+        bird.y = canvas.height - bird.radius;
+        bird.velocityY = 0;
+    }
+    
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     drawBird();
     drawObstacles();
@@ -86,6 +99,7 @@ window.addEventListener("resize", function() {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
     bird.y = canvas.height / 2;
+    maxHeight = canvas.height - gapHeight - minHeight;
 });
 
 document.addEventListener("keydown", function(event) {

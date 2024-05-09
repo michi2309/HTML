@@ -1,13 +1,13 @@
 var canvas = document.getElementById("gameCanvas");
 var ctx = canvas.getContext("2d");
 var bird = {
-    x: 50,
+    x: 400,
     y: canvas.height / 2,
     radius: 20,
     color: "blue",
     velocityY: 0 // Velocità verticale iniziale dell'uccellino
 };
-var gravity = 0.5; // Gravità iniziale
+var gravity = 0.2; // Gravità iniziale
 var jumpForce = -10; // Forza del salto
 var jumpDamping = 0.9; // Coefficiente di smorzamento del salto
 var obstacles = []; // Array per gli ostacoli

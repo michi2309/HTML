@@ -1,0 +1,101 @@
+h2 {
+    text-align: center;
+}
+
+p {
+    text-align: center;
+}
+
+h1 {
+    text-align: center;
+}
+
+.testos{
+    padding-top: 3%;
+    padding-bottom: 1%;
+    text-align: center;
+}
+
+.container1{
+    position: relative;
+}
+
+.contenuto1{
+    width: 100%;
+    top: 0;
+    left: 0;
+    position: absolute;
+}
+
+.contenuto2{
+    width: 100%;
+    top: 95%;
+    left: 50%;
+    position: absolute;
+}
+
+.navvone{
+    transition: linear;
+    transition-duration: 200ms;
+}
+
+/*
+.Imagine{
+    margin-bottom: 8.5px;
+    width: 45px;
+    height: 22.5px;
+}
+*/
+
+.titolone{
+    -webkit-font-smoothing: antialiased;
+    margin: 0px 0px 10px;
+    color: rgb(255, 255, 255);
+    font-family: "Open Sans", arial, sans-serif;
+    text-shadow: rgba(0, 0, 0, 0.4) 0px 1px 3px, rgba(0, 0, 0, 0.075) 0px 0px 30px; 
+    font-size: 80px; 
+    line-height: 100px; 
+    text-align: center; 
+    text-indent: 0px; 
+    text-transform: none; 
+    word-spacing: 0px; 
+    -webkit-text-stroke-width: 0px; 
+}
+
+.freccetta{
+    width: 45px;
+    height: 22.5px;
+}
+
+.testotit1{
+    font-size:22.5pt;
+    font-family:Oswald,sans-serif;
+    color:#444444;
+    background-color:transparent;
+    font-weight:400;
+    font-style:normal;
+    font-variant:normal;
+    text-decoration:none;
+    vertical-align:baseline;
+    white-space:pre;
+    white-space:pre-wrap;
+}
+
+.testino1{
+    width: 40%;
+    text-align: center;
+    margin-left: 30%;
+    font-size:13.5pt;
+    font-family:Roboto,sans-serif;
+    color:#63666a;
+}
+
+.carotaglia{
+    height: 100vh;
+    object-fit: cover;
+}
+
+.testos button{
+    border-radius: 4%;
+
+}

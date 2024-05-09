@@ -1,0 +1,39 @@
+.parallax-1 {
+    background: url('img3.jpg');
+    background-repeat:no-repeat ;
+    background-size:cover;
+    background-attachment: fixed;
+    display: flex;
+    height: 100vh;
+}
+
+.parallax-inner h1 {
+    padding-top: 15%;
+    color: white;
+    font-size: 120px;
+    text-align: center;
+}
+
+.parallax-inner p {
+    color: white;
+    font-size: 30px;
+    text-align: center;
+}
+
+.parallax-2 {
+    background: url('') no-repeat;
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+.parallax-3 {
+    background: url('') no-repeat;
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+.parallax-1 .parallax-inner {
+        padding: 10%;
+}

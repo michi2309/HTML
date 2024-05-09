@@ -1,0 +1,86 @@
+.imgbordirotondi{
+    border-radius: 3%;
+}
+
+.pulsante1 {
+  align-items: center;
+  background-color: #0A66C2;
+  border: 0;
+  border-radius: 20px;
+  box-sizing: border-box;
+  color: #cacaca;
+  padding: 15px;
+  padding-left: 25px;
+  padding-right: 25px;
+  text-align: center;
+  text-decoration:none;
+}
+.pulsante1:hover{
+    transition: 200ms;
+    background-color: #0c4279;
+    color: #ffffff;
+}
+
+.main{
+    background-color: #222831;
+}
+
+
+.container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    /*sinceramente non ho idea del perche' la dimensione del container controlli la distanza del container dalla cima della pagina */
+    height: 50vh;
+  }
+  
+  .containercontent {
+    flex: 1;
+    padding: 20px;
+  }
+  
+  .immaginedestra {
+    flex: 1;
+    text-align: center;
+  }
+  
+  .immaginedestra img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  h1{
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size:60px;
+    color:#EEEEEE;
+  }
+
+  h2{
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    text-align: center;
+    color:#EEEEEE;
+  }
+
+  p{    
+    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-size: 20px;
+    color:#EEEEEE;
+  }
+
+  .desc1{
+    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-size: 30px;
+    color:#EEEEEE;
+  }
+  .desc2{
+    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-size: 20px;
+    color:#EEEEEE;
+  }
+
+.titolone{
+  text-align: center;
+}
+/* */
+

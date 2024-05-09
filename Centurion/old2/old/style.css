@@ -1,0 +1,45 @@
+.parallax {
+    background-image: url("img_parallax.jpg");
+  
+    /* Set a specific height */
+    min-height: 500px;
+  
+    /* Create the parallax scrolling effect */
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+
+  h1{
+      text-align: center;
+  }
+  p{
+    text-align: center;
+}
+  .background-image {
+    position: relative;
+    width: 100%;
+    height: 600px;
+    object-fit: cover;
+    z-index: -1; /* Assicura che l'immagine sia dietro alla navbar */
+
+  }
+  .container {
+    width: 100%;
+    height: 150px;
+    position: relative;
+
+  }
+  .box {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    object-fit: cover;
+    top: 0;
+    left: 0;
+    background: #0057e3;
+  }
+  .overlay {
+    z-index: 9;
+  }

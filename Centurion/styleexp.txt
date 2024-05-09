@@ -1,0 +1,10 @@
+.testos da lo spazio tra il testo e l'immagine sopra
+.container1 serve a fare la sovrapposizione dell'imagine e della navbar
+.contenuto1 indica il contenuto di container1
+.contenuto2 indica il contenuto di container1 ma con un font diverso
+.navvone da' i tempi per l'animazione di transizione dei colori della navbar
+.Imagine volevo usarlo per formattare un immagine di un logo per farlo stare in linea con il testo senza dover formattare tutta la navbar
+.titolone - parzialemente rubato da google ;) - caratteristiche della font del titolone che c'e' all'inizio della pagina wwhg?
+.freccetta da' la posizione della scrollarrow in relazione al container1
+.testotit1 sono i sottotitoli delle sezioni bianche
+.testino1 sono i testi delle sezioni bianche

@@ -21,6 +21,9 @@ var maxHeight = canvas.height - gapHeight - minHeight; // Altezza massima degli 
 var isGameOver = false; // Flag per indicare se il gioco è terminato
 var birdImage = new Image();
 var obstacleImage = new Image();
+var score = 0; // Punteggio iniziale
+var scoreColor = "black"; // Colore del testo del punteggio
+var scoreFontSize = 30; // Dimensione del testo del punteggio
 
 birdImage.src = "bird.webp";
 obstacleImage.src = "fv4005.jpg";
@@ -37,13 +40,11 @@ function drawObstacles() {
     }
 }
 
-/*function drawBird() {
-    ctx.beginPath();
-    ctx.arc(bird.x, bird.y, bird.radius, 0, Math.PI * 2);
-    ctx.fillStyle = bird.color;
-    ctx.fill();
-    ctx.closePath();
-}*/
+function drawScore() {
+    ctx.fillStyle = scoreColor;
+    ctx.font = scoreFontSize + "px Arial";
+    ctx.fillText("Score: " + score, 10, 50); // Posizione del punteggio sullo schermo
+}
 
 function jump() {
     if (!isGameOver) {
@@ -61,23 +62,6 @@ function createObstacle() {
     };
     obstacles.push(obstacle);
 }
-
-/*function drawObstacles() {
-    for (var i = 0; i < obstacles.length; i++) {
-        var obstacle = obstacles[i];
-        ctx.beginPath();
-        ctx.rect(obstacle.x, 0, obstacleWidth, obstacle.gapY);
-        ctx.fillStyle = obstacle.color;
-        ctx.fill();
-        ctx.closePath();
-        
-        ctx.beginPath();
-        ctx.rect(obstacle.x, obstacle.gapY + gapHeight, obstacleWidth, canvas.height - (obstacle.gapY + gapHeight));
-        ctx.fillStyle = obstacle.color;
-        ctx.fill();
-        ctx.closePath();
-    }
-}*/
 
 function checkCollision() {
     // Controlla la collisione con il limite superiore del canvas
@@ -131,16 +115,22 @@ function update() {
 
         // Controlla le collisioni con gli ostacoli
         checkCollision();
+
+        // Incrementa il punteggio quando l'uccellino supera un ostacolo
+        if (obstacles.length > 0 && obstacles[0].x + obstacleWidth < bird.x - bird.radius) {
+            score++;
+        }
     }
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     drawBird();
     drawObstacles();
+    drawScore();
 
     if (!isGameOver) {
         requestAnimationFrame(update);
     } else {
-     // riattivare dopo   window.location.href = "index.html";
+        window.location.href = "main.html";
     }
 }
 
@@ -158,6 +148,5 @@ document.addEventListener("keydown", function(event) {
         jump();
     }
 });
-
 
 update();

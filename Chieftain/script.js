@@ -1,16 +1,17 @@
-// Ottieni il riferimento al canvas e al contesto 2D
-var canvas = document.getElementById("gioco");
+var canvas = document.getElementById("gameCanvas");
 var ctx = canvas.getContext("2d");
-
-// Definisci le proprietà dell'uccellino
 var bird = {
     x: 50,
     y: canvas.height / 2,
     radius: 20,
     color: "blue"
 };
+var gravity = 2;
+var obstacles = []; // Array per gli ostacoli
+var obstacleSpeed = 2; // Velocità degli ostacoli
+var obstacleWidth = 50; // Larghezza degli ostacoli
+var gapHeight = 200; // Altezza del varco tra gli ostacoli
 
-// Funzione per disegnare l'uccellino sul canvas
 function drawBird() {
     ctx.beginPath();
     ctx.arc(bird.x, bird.y, bird.radius, 0, Math.PI * 2);
@@ -19,38 +20,68 @@ function drawBird() {
     ctx.closePath();
 }
 
-// Disegna l'uccellino
-drawBird();
-// Aggiungi un listener per l'evento keydown per gestire il salto dell'uccellino
+function jump() {
+    bird.y -= 50;
+}
+
+function createObstacle() {
+    var obstacle = {
+        x: canvas.width,
+        y: Math.random() * (canvas.height - gapHeight), // Posizione casuale dell'ostacolo
+        width: obstacleWidth,
+        color: "green"
+    };
+    obstacles.push(obstacle);
+}
+
+function drawObstacles() {
+    for (var i = 0; i < obstacles.length; i++) {
+        var obstacle = obstacles[i];
+        ctx.beginPath();
+        ctx.rect(obstacle.x, 0, obstacle.width, obstacle.y);
+        ctx.fillStyle = obstacle.color;
+        ctx.fill();
+        ctx.closePath();
+        
+        ctx.beginPath();
+        ctx.rect(obstacle.x, obstacle.y + gapHeight, obstacle.width, canvas.height - (obstacle.y + gapHeight));
+        ctx.fillStyle = obstacle.color;
+        ctx.fill();
+        ctx.closePath();
+    }
+}
+
+function update() {
+    bird.y += gravity;
+    
+    // Genera nuovi ostacoli
+    if (Math.random() < 0.02) { // Cambia questo valore per regolare la frequenza degli ostacoli
+        createObstacle();
+    }
+    
+    // Muovi gli ostacoli
+    for (var i = 0; i < obstacles.length; i++) {
+        obstacles[i].x -= obstacleSpeed;
+    }
+    
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    drawBird();
+    drawObstacles();
+    requestAnimationFrame(update);
+}
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+window.addEventListener("resize", function() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    bird.y = canvas.height / 2;
+});
+
 document.addEventListener("keydown", function(event) {
-    // Se il tasto premuto è la barra spaziatrice (codice 32)
     if (event.keyCode === 32) {
         jump();
     }
 });
 
-// Funzione per far saltare l'uccellino
-function jump() {
-    bird.y -= 50; // Sposta l'uccellino verso l'alto
-}
-
-// Definisci la costante di gravità
-var gravity = 2;
-
-// Funzione per aggiornare il gioco ad ogni frame
-function update() {
-    // Aggiungi la gravità all'uccellino per farlo scendere
-    bird.y += gravity;
-    
-    // Pulisci il canvas
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    
-    // Disegna l'uccellino
-    drawBird();
-    
-    // Richiama la funzione update() ad ogni frame
-    requestAnimationFrame(update);
-}
-
-// Avvia il gioco
 update();

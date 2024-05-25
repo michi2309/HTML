@@ -14,6 +14,7 @@
 
 <script type="text/javascript">
 
+//setup iniziale dell'engine
 var config = {
     type: Phaser.AUTO,
     width: 300,
@@ -31,6 +32,31 @@ var config = {
         update: update
     }
 };
+//condizioni di gioco iniziali
+let isGameOver = false;
+let score = 0;
+let scoreText;
+let isRefresh =false;
+let hitPlayed= false;
+let diePlayed=false;
+let uccello;
+let base;
+let baseImage;
+let baseHeight;
+let veloci= -150;
+let spawnTime = 1500;
+let gameStart = false;
+let game= new Phaser.Game(config);
+
+function preload(){
+    this.load.image("sfondo","assets/sfondo.png")
+    this.load.image("personaggio","assets/idle.png", { frameWidth: 126, frameHeight: 39 })
+    this.load.image("salto","assets/hit.png", { frameWidth: 126, frameHeight: 39 })
+    this.load.image("corsa","assets/run.png", { frameWidth: 126, frameHeight: 39 })
+    this.load.image("morto","assets/death.png", { frameWidth: 126, frameHeight: 39 })
+    this.load.image("sfondo","assets/sfondo.png")
+    this.load.image("sfondo","assets/sfondo.png")
+}
 
 </script>
 

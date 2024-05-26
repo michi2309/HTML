@@ -17,8 +17,8 @@
 //setup iniziale dell'engine
 var config = {
     type: Phaser.AUTO,
-    width: 300,
-    height: 512,
+    width: 800,
+    height: 700,
     physics: {
         default: 'arcade',
         arcade: {
@@ -49,17 +49,17 @@ let gameStart = false;
 let game= new Phaser.Game(config);
 
 function preload(){
-    this.load.image("sfondo","assets/sfondo.png");
-    this.load.image("personaggio","assets/idle.png", { frameWidth: 126, frameHeight: 39 });
-    this.load.image("salto","assets/hit.png", { frameWidth: 126, frameHeight: 39 });
-    this.load.image("corsa","assets/run.png", { frameWidth: 126, frameHeight: 39 });
-    this.load.image("morto","assets/death.png", { frameWidth: 126, frameHeight: 39 });
-    this.load.image("piattaforma","assets/piattaforme.png");
-    this.load.image("base","assets/piattaforme.png");
-    this.load.image("gameover","assets/gameover.png");
-    this.load.image("punteggio","assets/score.png");
-    this.load.audio("punto","assets/point.wav");
-    this.load.audio("fine","assets/die.wav");
+    this.load.image("sfondo","./assets/sfondo.png");
+    this.load.image("personaggio","./assets/idle.png", { frameWidth: 126, frameHeight: 39 });
+    this.load.image("salto","./assets/hit.png", { frameWidth: 126, frameHeight: 39 });
+    this.load.image("corsa","./assets/run.png", { frameWidth: 126, frameHeight: 39 });
+    this.load.image("morto","./assets/death.png", { frameWidth: 126, frameHeight: 39 });
+    this.load.image("piattaforma","./assets/piattaforme.png");
+    this.load.image("base","./assets/base.png");
+    this.load.image("gameover","./assets/gameover.png");
+    this.load.image("punteggio","./assets/score.png");
+    this.load.audio("punto","./assets/point.wav");
+    this.load.audio("fine","./assets/die.wav");
 }
 
 function create() {
@@ -70,11 +70,28 @@ function create() {
     let baseImage = this.textures.get("base");
     let baseHeight = baseImage.getSourceImage().height;
     let baseWidth = baseImage.getSourceImage().width;
-    base=this.add.tileSprite(game.config.width/2,game.config.height/2 ,baseWidth,baseHeight, "base");
+    base=this.add.tileSprite(game.config.width,game.config.height ,baseWidth,baseHeight, "base");
     this.physics.add.existing(base,true);
+    base.setDepth(1);
+//    let startGameImage = this.add.image(game.config.width/2,game.config.height/3, "startGame");
+//    startGameImage.setOrigin(0.5,0.5);
+    personaggio = this.physics.add.sprite
+
 }
 
+function update(){}
 </script>
 
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+

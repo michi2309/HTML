@@ -3,7 +3,7 @@
 <head> 
     <meta charset="UTF-8" />
     <title>Merkava</title>
-    <link rel="icon" type="image/x-icon" href="./icon.ico">
+    <link rel="icon" type="image/x-icon" href="./assets/icon.ico">
     <script src="https://cdn.jsdelivr.net/npm/phaser@3.22.0/dist/phaser.min.js"></script>
     <style type="text/css">
         body {
@@ -49,12 +49,14 @@ let spawnTime = 1500;
 let gameStart = false;
 let game = new Phaser.Game(config);
 
+
+
 function preload() {
     this.load.image("sfondo", "./assets/sfondo.png");
-    this.load.spritesheet("personaggio", "./assets/idle.png", { frameWidth: 27, frameHeight: 39 });
+    this.load.spritesheet("personaggio", "./assets/idle.png", { frameWidth: 81, frameHeight: 117 });
 //    this.load.spritesheet("salto", "./assets/hit.png", { frameWidth: 39, frameHeight: 39 });
-    this.load.spritesheet("corsa", "./assets/run.png", { frameWidth: 27, frameHeight: 39 });
-    this.load.spritesheet("morto", "./assets/death.png", { frameWidth: 39, frameHeight: 39 });
+    this.load.spritesheet("corsa", "./assets/run.png", { frameWidth: 81, frameHeight: 117 });
+    this.load.spritesheet("morto", "./assets/death.png", { frameWidth: 117, frameHeight: 117 });
     this.load.image("pillar", "./assets/piattaforme.png");
     this.load.image("base", "./assets/base.png");
     this.load.image("gameover", "./assets/gameover.png");
@@ -92,7 +94,7 @@ function create() {
         key: 'avanti',
         frames: this.anims.generateFrameNumbers('corsa', { start: 3, end: 8 }),
         frameRate: 5,
-        repeat: 0
+        repeat: -1
     });
 
     this.anims.create({
@@ -111,8 +113,8 @@ function create() {
         this.upperPillars = this.physics.add.group();
         this.lowerPillars = this.physics.add.group();
         this.spawnPillarPair();
-        this.physics.add.collider(character, this.upperPillars, hitPillarUp, null, this);
-        this.physics.add.collider(character, this.lowerPillars, hitPillarDown, null, this);
+        this.physics.add.collider(character, this.upperPillars, hitPillar, null, this);
+        this.physics.add.collider(character, this.lowerPillars, hitPillar, null, this);
         this.physics.add.collider(character, base, hitbase, null, this);
 
         scoreText = this.add.text(game.config.width / 2, 30, "0", {
@@ -189,30 +191,31 @@ Phaser.Scene.prototype.spawnPillarPair = function () {
     this.pillarSpawnTime = this.time.now + spawnTime;
 }
 
-function hitPillarUp() {
-    // Logica per gestire la collisione con un pilastro
-        //if(!hitPLayed) 
-
-}
-
-function hitPillarDown() {
-    character.anims.play('avanti', true);
-    // Logica per gestire la collisione con un pilastro
-    
+function hitPillar(character,pillar) {
+  if(!hitPlayed) {
+    colpo.play();
+    hitPlayed=true;
+  }
+  character.anims.play("morte",true);
+  pillar.body.enable = false;
+  character.setVelocityX(0);
+  [this.upperPillars,this.lowerPillars].forEach(group=>group.children.iterate(pillar=>pillar.body.velocity.x=0));
+  isGameOver =true;
 }
 
 function hitbase(character, base) {
-// Logica per gestire la collisione con la base
-    //if(!hitPLayed) 
+    //esegue il suono soltanto se non e' gia' l'ha gia' fatto prima
+    if(!hitPlayed) {
     colpo.play();
+    hitPlayed=true;
+  }
     character.anims.play('morte', true);
     base.body.enable = false;
     character.setVelocityX(0);
     character.setVelocityY(0);
     character.body.allowGravity = false;
-//questa serviva a fermare gli ostacoli ma non so perche' non funzioni
-//    [this.upperPillar,this.lowerPillars].forEach(group=>group.children.iterate
-//    (pillar=>pillar.body.velocity.x=0))
+
+    [this.upperPillars,this.lowerPillars].forEach(group=>group.children.iterate(pillar=>pillar.body.velocity.x=0));
     isGameOver = true;
     let gameOverImage = this.add.image(game.config.width/2,game.config.height/4,"gameover")
     gameOverImage.setOrigin(0.5,0.5);
@@ -233,10 +236,6 @@ function hitbase(character, base) {
     });
     scoreText.destroy();
 
-}
-
-function fineGioco(){
-    
 }
 
 

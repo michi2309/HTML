@@ -60,16 +60,17 @@ function preload(){
     this.load.image("punteggio","./assets/score.png");
     this.load.audio("punto","./assets/point.wav");
     this.load.audio("fine","./assets/die.wav");
+    this.load.audio("saltos","./assets/jump.mp3");
 }
 
 function create() {
     let background = this.add.tileSprite(0,0,game.config.width,game.config.height, "sfondo");
     background.setOrigin(0,0);
-    background.displayWidth = this.sys.game.config.width;
-    background.displayHeight = this.sys.game.config.height;
+    background.displayWidth = 800;
+    background.displayHeight = 700;
     let baseImage = this.textures.get("base");
-    let baseHeight = baseImage.getSourceImage().height;
-    let baseWidth = baseImage.getSourceImage().width;
+    let baseHeight = 125;
+    let baseWidth = 1600;
     base=this.add.tileSprite(game.config.width,game.config.height ,baseWidth,baseHeight, "base");
     this.physics.add.existing(base,true);
     base.setDepth(1);
@@ -90,23 +91,24 @@ function create() {
     });
     this.anims.create({
         key: 'avanti',
-        frames: this.anims.generateFrameNumbers('corsa', { start: 0, end: 8 }),
-        frameRate: 9,
-        repeat: -1
+        frames: this.anims.generateFrameNumbers('corsa', { start: 3, end: 8 }),
+        frameRate: 5,
+        repeat: 0
     });
-    this.anims.create({
+ /*   this.anims.create({
         key: 'salta',
         frames: this.anims.generateFrameNumbers('salto', { start: 0, end: 1 }),
         frameRate: 5,
         repeat: -1
     });
+*/
     this.anims.create({
         key: 'morte',
         frames: this.anims.generateFrameNumbers('morto', { start: 0, end: 4 }),
         frameRate: 6,
     });
     //qua esegue l'animazione iniziale ig
-    uomo.anims.play("salta",true);
+    uomo.anims.play("idle",true);
     this.input.on("pointerdown", function(pointer){
         if(gameStart) return;
         gameStart = true;
@@ -122,13 +124,37 @@ function create() {
 //testo dei punti 
     scoreText = this.add.text(game.config.width/2, 30, "0",{
         fontSize:"32px",
-        fontFamily: "fantasy"
-    })
-    })
+        fontFamily: "fantasy",
+        fill:"white",
+    });
+    scoreText.setOrigin(0.5,0.5);
+    scoreText.setDepth(1);
+//  suoni
+    point = this.sound.add("punto");
+    colpo = this.sound.add("fine");
+    fatica = this.sound.add("saltos");
+
+    this.input.on("pointerdown", function(pointer){
+        if(!isRefresh && !isGameOver){
+            fatica.play()
+            character.setVelocityY(-230);
+        }
+        isRefresh=false;
+    },this);
+    
+    },this);
 } 
 
 function update(){
-
+    //controlli iniziali del frame
+    if(!isGameOver) base.tilePositionX+=1;
+    if(!gameStart) return;
+    
+    let scoreIncremented = false;
+    [this.upperPillars,this.lowerPillars].forEach((group)=>{
+        group
+    })
+    
 }
 </script>
 

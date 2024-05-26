@@ -105,13 +105,13 @@ function create() {
         if (gameStart) return;
         gameStart = true;
         character.body.allowGravity = true;
-        character.anims.play('idle', true);
+        character.anims.play('avanti', true);
 
         this.upperPillars = this.physics.add.group();
         this.lowerPillars = this.physics.add.group();
         this.spawnPillarPair();
-        this.physics.add.collider(character, this.upperPillars, hitPillar, null, this);
-        this.physics.add.collider(character, this.lowerPillars, hitPillar, null, this);
+        this.physics.add.collider(character, this.upperPillars, hitPillarUp, null, this);
+        this.physics.add.collider(character, this.lowerPillars, hitPillarDown, null, this);
         this.physics.add.collider(character, base, hitbase, null, this);
 
         scoreText = this.add.text(game.config.width / 2, 30, "0", {
@@ -189,26 +189,42 @@ Phaser.Scene.prototype.spawnPillarPair = function () {
 }
 
 function hitPillar() {
-    character.anims.play('corsa', true);
+    character.anims.play('avanti', true);
     // Logica per gestire la collisione con un pilastro
     console.log('Collisione con un pilastro');
 }
 
 function hitbase(character, base) {
 // Logica per gestire la collisione con la base
-    if(!hitPLayed) fine.play();
+    //if(!hitPLayed) 
+    colpo.play();
     character.anims.play('morte', true);
     base.body.enable = false;
     character.setVelocityX(0);
     character.setVelocityY(0);
     character.body.allowGravity = false;
-    [this.upperPillar,this.lowerPillars].forEach(group=>group.childre.iterate(pillar=>pillar.body.velocity.x=0))
+//questa serviva a fermare gli ostacoli ma non so perche' non funzioni
+//    [this.upperPillar,this.lowerPillars].forEach(group=>group.children.iterate
+//    (pillar=>pillar.body.velocity.x=0))
     isGameOver = true;
     let gameOverImage = this.add.image(game.config.width/2,game.config.height/4,"gameover")
     gameOverImage.setOrigin(0.5,0.5);
     let scoreImage = this.add.image(game.config.width/2, game.config.height, "punteggio");
     scoreImage.setOrigin(0.5,0.5);
-    finalScoreText = this.add.text(game.config.width/2,game.config.height+5, score)
+    finalScoreText = this.add.text(game.config.width/2,game.config.height+5, score, {fontSize: "32px", fontFamily :"Fantasy", fill:"white"});
+    finalScoreText.setOrigin(0.5,0.5);
+    this.tweens.add({
+        targets:[scoreImage, finalScoreText],
+        y:function(target){
+            return target == scoreImage ? game.config.height/2.2 : game.config.height/2.2
+            1;
+        },
+        ease:"Power1",
+        duration:500,
+        repeat: 0,
+        yoyo: false,
+    });
+    scoreText.destroy();
     console.log('Collisione con la base');
 }
 

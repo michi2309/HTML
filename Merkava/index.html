@@ -64,10 +64,10 @@ function preload(){
 }
 
 function create() {
-    let background = this.add.tileSprite(0,0,game.config.width,game.config.height, "sfondo");
+    let background = this.add.tileSprite(0,0,1920,1000, "sfondo");
     background.setOrigin(0,0);
-    background.displayWidth = 800;
-    background.displayHeight = 700;
+    background.displayWidth = game.config.width;
+    background.displayHeight = game.config.height;
     let baseImage = this.textures.get("base");
     let baseHeight = 125;
     let baseWidth = 1600;
@@ -152,7 +152,9 @@ function update(){
     
     let scoreIncremented = false;
     [this.upperPillars,this.lowerPillars].forEach((group)=>{
-        group
+        group.children.iterate((
+            pillar
+        )=>)
     })
     
 }

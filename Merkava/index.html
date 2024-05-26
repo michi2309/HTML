@@ -41,24 +41,26 @@ let hitPlayed = false;
 let diePlayed = false;
 let character;
 let base;
+let baseImage;
+let baseHeight;
 let veloci = -150;
 let spawnTime = 1500;
 let gameStart = false;
 let game = new Phaser.Game(config);
 
-function preload(){
-    this.load.image("sfondo","./assets/sfondo.png");
-    this.load.spritesheet("personaggio","./assets/idle.png", { frameWidth: 126, frameHeight: 39 });
-    this.load.spritesheet("salto","./assets/hit.png", { frameWidth: 126, frameHeight: 39 });
-    this.load.spritesheet("corsa","./assets/run.png", { frameWidth: 126, frameHeight: 39 });
-    this.load.spritesheet("morto","./assets/death.png", { frameWidth: 126, frameHeight: 39 });
-    this.load.image("piattaforma","./assets/piattaforme.png");
-    this.load.image("base","./assets/base.png");
-    this.load.image("gameover","./assets/gameover.png");
-    this.load.image("punteggio","./assets/score.png");
-    this.load.audio("punto","./assets/point.wav");
-    this.load.audio("fine","./assets/die.wav");
-    this.load.audio("saltos","./assets/jump.mp3");
+function preload() {
+    this.load.image("sfondo", "./assets/sfondo.png");
+    this.load.spritesheet("personaggio", "./assets/idle.png", { frameWidth: 126, frameHeight: 39 });
+    this.load.spritesheet("salto", "./assets/hit.png", { frameWidth: 126, frameHeight: 39 });
+    this.load.spritesheet("corsa", "./assets/run.png", { frameWidth: 126, frameHeight: 39 });
+    this.load.spritesheet("morto", "./assets/death.png", { frameWidth: 126, frameHeight: 39 });
+    this.load.image("pillar", "./assets/piattaforme.png");
+    this.load.image("base", "./assets/base.png");
+    this.load.image("gameover", "./assets/gameover.png");
+    this.load.image("punteggio", "./assets/score.png");
+    this.load.audio("punto", "./assets/point.wav");
+    this.load.audio("fine", "./assets/die.wav");
+    this.load.audio("saltos", "./assets/jump.mp3");
 }
 
 function create() {
@@ -66,19 +68,19 @@ function create() {
     background.setOrigin(0, 0);
     background.displayWidth = game.config.width;
     background.displayHeight = game.config.height;
-    
+    let baseImage = this.textures.get("base");
     let baseHeight = 125;
     let baseWidth = 1600;
     base = this.add.tileSprite(game.config.width, game.config.height, baseWidth, baseHeight, "base");
     this.physics.add.existing(base, true);
     base.setDepth(1);
-    
+
     character = this.physics.add.sprite(game.config.width / 4, game.config.height / 2, "personaggio");
     character.setDepth(1);
     character.setCollideWorldBounds(true);
     character.body.allowGravity = false;
     gameStart = false;
-    
+
     this.anims.create({
         key: 'idle',
         frames: this.anims.generateFrameNumbers('personaggio', { start: 0, end: 4 }),
@@ -91,6 +93,7 @@ function create() {
         frameRate: 5,
         repeat: 0
     });
+
     this.anims.create({
         key: 'morte',
         frames: this.anims.generateFrameNumbers('morto', { start: 0, end: 4 }),
@@ -98,18 +101,18 @@ function create() {
     });
 
     character.anims.play("idle", true);
-    this.input.on("pointerdown", function(pointer){
+    this.input.on("pointerdown", function (pointer) {
         if (gameStart) return;
         gameStart = true;
         character.body.allowGravity = true;
+        character.anims.play('idle', true);
 
         this.upperPillars = this.physics.add.group();
         this.lowerPillars = this.physics.add.group();
         this.spawnPillarPair();
-
         this.physics.add.collider(character, this.upperPillars, hitPillar, null, this);
         this.physics.add.collider(character, this.lowerPillars, hitPillar, null, this);
-        this.physics.add.collider(character, this.base, hitBase, null, this);
+        this.physics.add.collider(character, base, hitbase, null, this);
 
         scoreText = this.add.text(game.config.width / 2, 30, "0", {
             fontSize: "32px",
@@ -123,17 +126,18 @@ function create() {
         colpo = this.sound.add("fine");
         fatica = this.sound.add("saltos");
 
-        this.input.on("pointerdown", function(pointer){
+        this.input.on("pointerdown", function (pointer) {
             if (!isRefresh && !isGameOver) {
                 fatica.play();
                 character.setVelocityY(-230);
             }
             isRefresh = false;
         }, this);
+
     }, this);
 }
 
-function update(){
+function update() {
     if (!isGameOver) base.tilePositionX += 1;
     if (!gameStart) return;
 
@@ -162,8 +166,10 @@ function update(){
     }
 }
 
-function spawnPillarPair() {
-    let pillarImage = this.textures.get("piattaforma");
+Phaser.Scene.prototype.spawnPillarPair = function () {
+    baseImage = this.textures.get("base");
+    baseHeight = baseImage.getSourceImage().height;
+    let pillarImage = this.textures.get("pillar");
     let pillarHeight = pillarImage.getSourceImage().height;
     let Offset = (Math.random() * pillarHeight) / 2;
     let k = Math.floor(Math.random() * 3) - 1;
@@ -171,9 +177,9 @@ function spawnPillarPair() {
     let gapHeight = (1 / 3) * (game.config.height - baseHeight);
     let lowerY = 2 * gapHeight + pillarHeight / 2 + Offset;
     let upperY = gapHeight - pillarHeight / 2 + Offset;
-    let upperPillar = this.upperPillars.create(game.config.width, upperY, "piattaforma");
+    let upperPillar = this.upperPillars.create(game.config.width, upperY, "pillar");
     upperPillar.setAngle(180);
-    let lowerPillar = this.lowerPillars.create(game.config.width, lowerY, "piattaforma");
+    let lowerPillar = this.lowerPillars.create(game.config.width, lowerY, "pillar");
     upperPillar.body.allowGravity = false;
     lowerPillar.body.allowGravity = false;
 
@@ -183,18 +189,15 @@ function spawnPillarPair() {
 }
 
 function hitPillar() {
-    // gestione collisione con i pilastri
-    isGameOver = true;
-    character.anims.play("morte", true);
-    colpo.play();
+    // Logica per gestire la collisione con un pilastro
+    console.log('Collisione con un pilastro');
 }
 
-function hitBase() {
-    // gestione collisione con la base
-    isGameOver = true;
-    character.anims.play("morte", true);
-    colpo.play();
+function hitbase() {
+    // Logica per gestire la collisione con la base
+    console.log('Collisione con la base');
 }
+
 </script>
 
 </body>

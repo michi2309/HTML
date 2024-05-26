@@ -83,9 +83,15 @@ function create() {
     gameStart= false;
     //animazioni e movimento
     this.anims.create({
+        key: 'idle',
+        frames: this.anims.generateFrameNumbers('personaggio', { start: 0, end: 4 }),
+        frameRate: 7,
+        repeat: -1
+    });
+    this.anims.create({
         key: 'avanti',
         frames: this.anims.generateFrameNumbers('corsa', { start: 0, end: 8 }),
-        frameRate: 3,
+        frameRate: 9,
         repeat: -1
     });
     this.anims.create({
@@ -100,7 +106,7 @@ function create() {
         frameRate: 3,
     });
     //qua esegue l'animazione iniziale ig
-    uomo.anims.play("fly",true);
+    uomo.anims.play("idle",true);
 } 
 
 function update(){
@@ -110,14 +116,3 @@ function update(){
 
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-

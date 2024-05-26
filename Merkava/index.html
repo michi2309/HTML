@@ -194,10 +194,21 @@ function hitPillar() {
     console.log('Collisione con un pilastro');
 }
 
-function hitbase() {
+function hitbase(character, base) {
+// Logica per gestire la collisione con la base
+    if(!hitPLayed) fine.play();
     character.anims.play('morte', true);
-
-    // Logica per gestire la collisione con la base
+    base.body.enable = false;
+    character.setVelocityX(0);
+    character.setVelocityY(0);
+    character.body.allowGravity = false;
+    [this.upperPillar,this.lowerPillars].forEach(group=>group.childre.iterate(pillar=>pillar.body.velocity.x=0))
+    isGameOver = true;
+    let gameOverImage = this.add.image(game.config.width/2,game.config.height/4,"gameover")
+    gameOverImage.setOrigin(0.5,0.5);
+    let scoreImage = this.add.image(game.config.width/2, game.config.height, "punteggio");
+    scoreImage.setOrigin(0.5,0.5);
+    finalScoreText = this.add.text(game.config.width/2,game.config.height+5, score)
     console.log('Collisione con la base');
 }
 

@@ -189,14 +189,18 @@ Phaser.Scene.prototype.spawnPillarPair = function () {
 }
 
 function hitPillar() {
+    character.anims.play('corsa', true);
     // Logica per gestire la collisione con un pilastro
     console.log('Collisione con un pilastro');
 }
 
 function hitbase() {
+    character.anims.play('morte', true);
+
     // Logica per gestire la collisione con la base
     console.log('Collisione con la base');
 }
+
 
 </script>
 

@@ -3,6 +3,7 @@
 <head> 
     <meta charset="UTF-8" />
     <title>Merkava</title>
+    <link rel="icon" type="image/x-icon" href="./icon.ico">
     <script src="https://cdn.jsdelivr.net/npm/phaser@3.22.0/dist/phaser.min.js"></script>
     <style type="text/css">
         body {
@@ -50,10 +51,10 @@ let game = new Phaser.Game(config);
 
 function preload() {
     this.load.image("sfondo", "./assets/sfondo.png");
-    this.load.spritesheet("personaggio", "./assets/idle.png", { frameWidth: 126, frameHeight: 39 });
-    this.load.spritesheet("salto", "./assets/hit.png", { frameWidth: 126, frameHeight: 39 });
-    this.load.spritesheet("corsa", "./assets/run.png", { frameWidth: 126, frameHeight: 39 });
-    this.load.spritesheet("morto", "./assets/death.png", { frameWidth: 126, frameHeight: 39 });
+    this.load.spritesheet("personaggio", "./assets/idle.png", { frameWidth: 27, frameHeight: 39 });
+//    this.load.spritesheet("salto", "./assets/hit.png", { frameWidth: 39, frameHeight: 39 });
+    this.load.spritesheet("corsa", "./assets/run.png", { frameWidth: 27, frameHeight: 39 });
+    this.load.spritesheet("morto", "./assets/death.png", { frameWidth: 39, frameHeight: 39 });
     this.load.image("pillar", "./assets/piattaforme.png");
     this.load.image("base", "./assets/base.png");
     this.load.image("gameover", "./assets/gameover.png");
@@ -188,10 +189,16 @@ Phaser.Scene.prototype.spawnPillarPair = function () {
     this.pillarSpawnTime = this.time.now + spawnTime;
 }
 
-function hitPillar() {
+function hitPillarUp() {
+    // Logica per gestire la collisione con un pilastro
+        //if(!hitPLayed) 
+
+}
+
+function hitPillarDown() {
     character.anims.play('avanti', true);
     // Logica per gestire la collisione con un pilastro
-    console.log('Collisione con un pilastro');
+    
 }
 
 function hitbase(character, base) {
@@ -225,7 +232,11 @@ function hitbase(character, base) {
         yoyo: false,
     });
     scoreText.destroy();
-    console.log('Collisione con la base');
+
+}
+
+function fineGioco(){
+    
 }
 
 

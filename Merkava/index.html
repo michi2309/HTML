@@ -3,7 +3,7 @@
 <head> 
     <meta charset="UTF-8" />
     <title>Merkava</title>
-    <script src="//cdn.jsdelivr.net/npm/phaser@3.11.0/dist/phaser.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/phaser@3.22.0/dist/phaser.min.js"></script>
     <style type="text/css">
         body {
             margin: 0;
@@ -36,17 +36,15 @@ var config = {
 let isGameOver = false;
 let score = 0;
 let scoreText;
-let isRefresh =false;
-let hitPlayed= false;
-let diePlayed=false;
-let uccello;
+let isRefresh = false;
+let hitPlayed = false;
+let diePlayed = false;
+let character;
 let base;
-let baseImage;
-let baseHeight;
-let veloci= -150;
+let veloci = -150;
 let spawnTime = 1500;
 let gameStart = false;
-let game= new Phaser.Game(config);
+let game = new Phaser.Game(config);
 
 function preload(){
     this.load.image("sfondo","./assets/sfondo.png");
@@ -64,25 +62,23 @@ function preload(){
 }
 
 function create() {
-    let background = this.add.tileSprite(0,0,1920,1000, "sfondo");
-    background.setOrigin(0,0);
+    let background = this.add.tileSprite(0, 0, 1920, 1000, "sfondo");
+    background.setOrigin(0, 0);
     background.displayWidth = game.config.width;
     background.displayHeight = game.config.height;
-    let baseImage = this.textures.get("base");
+    
     let baseHeight = 125;
     let baseWidth = 1600;
-    base=this.add.tileSprite(game.config.width,game.config.height ,baseWidth,baseHeight, "base");
-    this.physics.add.existing(base,true);
+    base = this.add.tileSprite(game.config.width, game.config.height, baseWidth, baseHeight, "base");
+    this.physics.add.existing(base, true);
     base.setDepth(1);
-    //volendo ho questo codice per l'immagine iniziale ma non mi interessava farla
-//    let startGameImage = this.add.image(game.config.width/2,game.config.height/3, "startGame");
-//    startGameImage.setOrigin(0.5,0.5);
-    uomo = this.physics.add.sprite(game.config.width/4,game.config.height/2, "personaggio")
-    uomo.setDepth(1);
-    uomo.setCollideWorldBounds(true);
-    uomo.body.allowGravity = false;
-    gameStart= false;
-    //animazioni e movimento
+    
+    character = this.physics.add.sprite(game.config.width / 4, game.config.height / 2, "personaggio");
+    character.setDepth(1);
+    character.setCollideWorldBounds(true);
+    character.body.allowGravity = false;
+    gameStart = false;
+    
     this.anims.create({
         key: 'idle',
         frames: this.anims.generateFrameNumbers('personaggio', { start: 0, end: 4 }),
@@ -95,106 +91,109 @@ function create() {
         frameRate: 5,
         repeat: 0
     });
- /*   this.anims.create({
-        key: 'salta',
-        frames: this.anims.generateFrameNumbers('salto', { start: 0, end: 1 }),
-        frameRate: 5,
-        repeat: -1
-    });
-*/
     this.anims.create({
         key: 'morte',
         frames: this.anims.generateFrameNumbers('morto', { start: 0, end: 4 }),
         frameRate: 6,
     });
-    //qua esegue l'animazione iniziale ig
-    uomo.anims.play("idle",true);
-    this.input.on("pointerdown", function(pointer){
-        if(gameStart) return;
-        gameStart = true;
-//        startGameImage.setVisible(false;)
-    uomo.body.allowGravity = true;
-    //le colonne da evitare (per ora e' cosi' devo decidere se poi cambiare lo stile di gioco)
-    this.upperPillars = this.physics.add.group();
-    this.lowerPillars = this.physics.add.group();
-    this.spawnPillarPair();
-    this.physics.add.colllider(uomo,this.upperPillars,hitPillar,null,this);
-    this.physics.add.colllider(uomo,this.lowerPillars,hitPillar,null,this);
-//    this.physics.add.colllider(uomo,this.base,hitbase,null,this); 
-//testo dei punti 
-    scoreText = this.add.text(game.config.width/2, 30, "0",{
-        fontSize:"32px",
-        fontFamily: "fantasy",
-        fill:"white",
-    });
-    scoreText.setOrigin(0.5,0.5);
-    scoreText.setDepth(1);
-//  suoni
-    point = this.sound.add("punto");
-    colpo = this.sound.add("fine");
-    fatica = this.sound.add("saltos");
 
+    character.anims.play("idle", true);
     this.input.on("pointerdown", function(pointer){
-        if(!isRefresh && !isGameOver){
-            fatica.play()
-            character.setVelocityY(-230);
-        }
-        isRefresh=false;
-    },this);
-    
-    },this);
-} 
+        if (gameStart) return;
+        gameStart = true;
+        character.body.allowGravity = true;
+
+        this.upperPillars = this.physics.add.group();
+        this.lowerPillars = this.physics.add.group();
+        this.spawnPillarPair();
+
+        this.physics.add.collider(character, this.upperPillars, hitPillar, null, this);
+        this.physics.add.collider(character, this.lowerPillars, hitPillar, null, this);
+        this.physics.add.collider(character, this.base, hitBase, null, this);
+
+        scoreText = this.add.text(game.config.width / 2, 30, "0", {
+            fontSize: "32px",
+            fontFamily: "fantasy",
+            fill: "white",
+        });
+        scoreText.setOrigin(0.5, 0.5);
+        scoreText.setDepth(1);
+
+        point = this.sound.add("punto");
+        colpo = this.sound.add("fine");
+        fatica = this.sound.add("saltos");
+
+        this.input.on("pointerdown", function(pointer){
+            if (!isRefresh && !isGameOver) {
+                fatica.play();
+                character.setVelocityY(-230);
+            }
+            isRefresh = false;
+        }, this);
+    }, this);
+}
 
 function update(){
-    //controlli iniziali del frame
-    if(!isGameOver) base.tilePositionX+=1;
-    if(!gameStart) return;
-    
-    let scoreIncremented = false;
-    [this.upperPillars,this.lowerPillars].forEach((group)=>{
-        group.children.iterate((pillar)=> {
-            if(!pillar) return;
+    if (!isGameOver) base.tilePositionX += 1;
+    if (!gameStart) return;
 
-            if(!pillar.hasPassed && pillar.x+pillar.width<character.x){
+    let scoreIncremented = false;
+    [this.upperPillars, this.lowerPillars].forEach((group) => {
+        group.children.iterate((pillar) => {
+            if (!pillar) return;
+
+            if (!pillar.hasPassed && pillar.x + pillar.width < character.x) {
                 pillar.hasPassed = true;
-                if(!scoreIncremented){
-                    score++
+                if (!scoreIncremented) {
+                    score++;
                     scoreText.setText(score);
                     point.play();
                     scoreIncremented = true;
                 }
             }
-            if(pillar.x+pillar.width<0) {
+            if (pillar.x + pillar.width < 0) {
                 pillar.destroy();
             }
         });
     });
     scoreIncremented = false;
-    if(this.pillarSpawnTime<this.time.now && !isGameOver){
+    if (this.pillarSpawnTime < this.time.now && !isGameOver) {
         this.spawnPillarPair();
     }
 }
 
-Phaser.Scene.prototype.spawnPillarPair = function(){
-    baseImage = this.textures.get("base");
-    baseHeight = baseImage.getSourceImage().height;
-    let pillarImage = this.textures.get("pillar");
+function spawnPillarPair() {
+    let pillarImage = this.textures.get("piattaforma");
     let pillarHeight = pillarImage.getSourceImage().height;
-    let Offset = (Math.random()*pillarHeight)/2;
-    let k= Math.floor(Math.random()*3)-1;
-    Offset = Offset*k;
-    let gapHeight =(1/3)*(game.config.height-baseHeight);
-    let lowerY= 2*gapHeight + pillarHeight/2+Offset;
-    let upperY = gapHeight-pillarHeight/2+Offset;
-    let upperPillar = this.upperPillars.create(game.config.width, upperY, "pillar");
-    upperPillars.setAngle(180);
-    let lowerPillar = this.lowerPillars.create(game.config.width, lowerY, "pillar");
-    upperPillar.body.allowGravity=false;
-    lowerPillar.body.allowGravity=false;
+    let Offset = (Math.random() * pillarHeight) / 2;
+    let k = Math.floor(Math.random() * 3) - 1;
+    Offset = Offset * k;
+    let gapHeight = (1 / 3) * (game.config.height - baseHeight);
+    let lowerY = 2 * gapHeight + pillarHeight / 2 + Offset;
+    let upperY = gapHeight - pillarHeight / 2 + Offset;
+    let upperPillar = this.upperPillars.create(game.config.width, upperY, "piattaforma");
+    upperPillar.setAngle(180);
+    let lowerPillar = this.lowerPillars.create(game.config.width, lowerY, "piattaforma");
+    upperPillar.body.allowGravity = false;
+    lowerPillar.body.allowGravity = false;
 
     upperPillar.setVelocityX(veloci);
     lowerPillar.setVelocityX(veloci);
-    this.pillarSpawnTime
+    this.pillarSpawnTime = this.time.now + spawnTime;
+}
+
+function hitPillar() {
+    // gestione collisione con i pilastri
+    isGameOver = true;
+    character.anims.play("morte", true);
+    colpo.play();
+}
+
+function hitBase() {
+    // gestione collisione con la base
+    isGameOver = true;
+    character.anims.play("morte", true);
+    colpo.play();
 }
 </script>
 

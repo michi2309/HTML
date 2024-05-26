@@ -97,16 +97,34 @@ function create() {
     this.anims.create({
         key: 'salta',
         frames: this.anims.generateFrameNumbers('salto', { start: 0, end: 1 }),
-        frameRate: 3,
+        frameRate: 5,
         repeat: -1
     });
     this.anims.create({
         key: 'morte',
         frames: this.anims.generateFrameNumbers('morto', { start: 0, end: 4 }),
-        frameRate: 3,
+        frameRate: 6,
     });
     //qua esegue l'animazione iniziale ig
-    uomo.anims.play("idle",true);
+    uomo.anims.play("salta",true);
+    this.input.on("pointerdown", function(pointer){
+        if(gameStart) return;
+        gameStart = true;
+//        startGameImage.setVisible(false;)
+    uomo.body.allowGravity = true;
+    //le colonne da evitare (per ora e' cosi' devo decidere se poi cambiare lo stile di gioco)
+    this.upperPillars = this.physics.add.group();
+    this.lowerPillars = this.physics.add.group();
+    this.spawnPillarPair();
+    this.physics.add.colllider(uomo,this.upperPillars,hitPillar,null,this);
+    this.physics.add.colllider(uomo,this.lowerPillars,hitPillar,null,this);
+//    this.physics.add.colllider(uomo,this.base,hitbase,null,this); 
+//testo dei punti 
+    scoreText = this.add.text(game.config.width/2, 30, "0",{
+        fontSize:"32px",
+        fontFamily: "fantasy"
+    })
+    })
 } 
 
 function update(){

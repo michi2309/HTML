@@ -152,11 +152,49 @@ function update(){
     
     let scoreIncremented = false;
     [this.upperPillars,this.lowerPillars].forEach((group)=>{
-        group.children.iterate((
-            pillar
-        )=>)
-    })
-    
+        group.children.iterate((pillar)=> {
+            if(!pillar) return;
+
+            if(!pillar.hasPassed && pillar.x+pillar.width<character.x){
+                pillar.hasPassed = true;
+                if(!scoreIncremented){
+                    score++
+                    scoreText.setText(score);
+                    point.play();
+                    scoreIncremented = true;
+                }
+            }
+            if(pillar.x+pillar.width<0) {
+                pillar.destroy();
+            }
+        });
+    });
+    scoreIncremented = false;
+    if(this.pillarSpawnTime<this.time.now && !isGameOver){
+        this.spawnPillarPair();
+    }
+}
+
+Phaser.Scene.prototype.spawnPillarPair = function(){
+    baseImage = this.textures.get("base");
+    baseHeight = baseImage.getSourceImage().height;
+    let pillarImage = this.textures.get("pillar");
+    let pillarHeight = pillarImage.getSourceImage().height;
+    let Offset = (Math.random()*pillarHeight)/2;
+    let k= Math.floor(Math.random()*3)-1;
+    Offset = Offset*k;
+    let gapHeight =(1/3)*(game.config.height-baseHeight);
+    let lowerY= 2*gapHeight + pillarHeight/2+Offset;
+    let upperY = gapHeight-pillarHeight/2+Offset;
+    let upperPillar = this.upperPillars.create(game.config.width, upperY, "pillar");
+    upperPillars.setAngle(180);
+    let lowerPillar = this.lowerPillars.create(game.config.width, lowerY, "pillar");
+    upperPillar.body.allowGravity=false;
+    lowerPillar.body.allowGravity=false;
+
+    upperPillar.setVelocityX(veloci);
+    lowerPillar.setVelocityX(veloci);
+    this.pillarSpawnTime
 }
 </script>
 

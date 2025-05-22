@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nuova pizza</title>
+                <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <form action="./inserisci_db.php" method="post" enctype="multipart/form-data">
@@ -26,6 +27,10 @@
         <p>
             Seleziona immagine da caricare:
             <input type="file" name="fileToUploadOwn">
+        </p>        
+        <p>
+            Seleziona immagine da caricare:
+            <input type="file" name="fileToUploadOld">
         </p>        
 
         <button type="submit" name="save">Inserisci</button>

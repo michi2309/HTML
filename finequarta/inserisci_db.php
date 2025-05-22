@@ -77,7 +77,7 @@ function uploadImmagine(){
         echo "<p>Connessione eseguita correttamente a MySQL</p>";
 
         // 1) scrivo/preparo una query sql
-        $mia_query = "INSERT INTO modello (nome, dati, descrizione, immagine1) VALUE ('$nome_modello','$dati_modello','$descrizione_modello','$img1')"; // query di inserimento
+        $mia_query = "INSERT INTO modello (nome, dati, descrizione, immagine1) VALUES ('$nome_modello','$dati_modello','$descrizione_modello','$img1')"; // query di inserimento
         echo $mia_query; // stampo a video la mia query
 
         // 2) eseguo la query

@@ -1,0 +1,102 @@
+/* RESET BASE */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #e6e6e6; /* sfondo esterno */
+    color: #333;
+    min-height: 100vh;
+}
+
+/* WRAPPER A SCHERMO INTERO CON SFONDO */
+.container {
+    max-width: 900px;              /* larghezza fissa del contenuto */
+    margin: 40px auto;             /* centrato orizzontalmente */
+    padding: 40px;
+    background-color: #d6d6d6;     /* colore del riquadro centrale */
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1); /* effetto distacco */
+}
+
+/* TITOLI */
+h1 {
+    font-size: 2.5rem;
+    margin-bottom: 0.2em;
+    color: #666;
+    text-align: center;
+}
+
+h2 {
+    font-size: 1rem;
+    font-weight: normal;
+    margin-bottom: 2em;
+    color: #666;
+    letter-spacing: 1px;
+    text-align: center;
+}
+
+/* IMMAGINE PRINCIPALE */
+.image-main img {
+    max-width: 100%;
+    height: auto;
+    border: 5px solid #ccc;
+}
+
+/* SEZIONE TESTO + FOTO STORICA */
+.content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 30px;
+    gap: 20px;
+}
+
+/* TESTO */
+.text {
+    flex: 1 1 400px;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    text-align: left;
+}
+
+.text p {
+    color: #71625C;
+    font-weight: 600;
+}
+
+/* IMMAGINE SECONDARIA */
+.image-secondary {
+    flex: 0 1 300px;
+}
+
+.image-secondary img {
+    width: 100%;
+    height: auto;
+    border: 3px solid #aaa;
+}
+
+/* RESPONSIVE SOLO PER PICCOLI SCHERMI */
+@media (max-width: 768px) {
+    .content {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .text, .image-secondary {
+        flex: 1 1 100%;
+    }
+}
+
+.titolo {
+    font-size: 2.5rem;
+    margin-bottom: 0.2em;
+    font-weight: bold;
+    color: #666;
+    text-align: center;
+}
+.sottotitolo {
+    text-align: center;
+}

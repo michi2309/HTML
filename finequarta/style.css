@@ -22,6 +22,7 @@ body {
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.1); /* effetto distacco */
 }
 
+
 /* TITOLI */
 h1 {
     font-size: 2.5rem;
@@ -100,4 +101,20 @@ h2 {
 }
 .sottotitolo {
     text-align: center;
+}
+
+.sottotitolo a{
+    text-align: center;
+        color: #71625C;
+    font-weight: 600;
+}
+
+.mostrautente {
+    font-style: italic;
+    font-size: 0.8rem;
+    color: #71625C;
+    text-align: center;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-weight: 600;
 }

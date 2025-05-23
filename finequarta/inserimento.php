@@ -25,13 +25,18 @@
         </p>
 
         <p>
+            <label for="utente">Utente: </label>
+            <input type="text" name="utente"><br/>
+        </p>
+
+        <p>
             Seleziona immagine da caricare:
             <input type="file" name="fileToUploadOwn">
         </p>        
         <p>
             Seleziona immagine da caricare:
             <input type="file" name="fileToUploadOld">
-        </p>        
+        </p>
 
         <button type="submit" name="save">Inserisci</button>
     </form>

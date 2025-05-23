@@ -21,7 +21,7 @@
                     exit();
                 } else {
                     //* 1) scrivo/preparo una query sql SOLO per l'id richiesto
-                    $mia_query = "SELECT id, nome, dati, descrizione, immagine1, immagine2 FROM modello WHERE id = $id_modello";
+                    $mia_query = "SELECT id, nome, dati, descrizione, immagine1, immagine2, user FROM modello WHERE id = $id_modello";
                     // echo $mia_query; // opzionale: stampa la query
                 
                     //* 2) eseguo la query
@@ -36,6 +36,7 @@
                         $descrizione = $resrow[3];
                         $modellino = $resrow[4];
                         $storica = $resrow[5];
+                        $user = $resrow[6];
                     } else {
                         echo "<p>Modello non trovato.</p>";
                     }
@@ -45,10 +46,13 @@
                     ?>
 
     <div class="container">
-                    <?php        
-        echo "<h1>$nome</h1>";
+        <?php
+        echo "<h1 style='display: flex; align-items: center; justify-content: center; gap: 12px;'>";
+        echo "<a href='index.php' style='text-decoration: none; color: inherit; font-size: 2rem; display: flex; align-items: center;' title='Torna alla home'>&larr;</a>";
+        echo "<span>$nome</span>";
+        echo "</h1>";
         echo "<h2>$dati</h2>";
-                ?>
+        ?>
         <div class="image-main">
             <?php
                 echo "<img src='./assets/$modellino' >";
@@ -60,12 +64,21 @@
                 <?php
                     echo "<p>$descrizione</p>";
                 ?>
+                                <?php
+                    echo "<p class='mostrautente'>aggiunto da: $user</p>";
+                ?>
             </div>
             <div class="image-secondary"><?php
                         echo "<img src='./assets/$storica' >";
                 ?>
             </div>
         </div>
+            <!--<div class="text">
+                <?php
+                    echo "<p class='mostrautente'>aggiunto da: $user</p>";
+                ?>
+            </div>-->
     </div>
+    
 </body>
 </html>

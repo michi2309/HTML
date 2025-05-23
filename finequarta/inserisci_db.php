@@ -52,7 +52,7 @@ function uploadImmagineOwn(){
     }
     }
 
-    function uploadImmagineOld(){
+function uploadImmagineOld(){
         // Cartella in cui caricare i file
         $target_dir = "./assets/";
         $target_file = $target_dir . basename($_FILES["fileToUploadOld"]["name"]); // nome del file
@@ -106,10 +106,12 @@ function uploadImmagineOwn(){
     $descrizione_modello = $_POST['descrizione'];
     $img1 = basename($_FILES["fileToUploadOwn"]["name"]);
     $img2 = basename($_FILES["fileToUploadOld"]["name"]);
+    $utente_modello = $_POST['utente'];
 
     echo "<p>$nome_modello</p>";
     echo "<p>$dati_modello</p>";
     echo "<p>$descrizione_modello</p>";
+    echo "<p>$utente_modello</p>";
 
     $db_host = "localhost"; // stesso host nel quale sta girando l’applicazione php
     $db_user = "root"; // il vostro utente
@@ -124,7 +126,7 @@ function uploadImmagineOwn(){
         echo "<p>Connessione eseguita correttamente a MySQL</p>";
 
         // 1) scrivo/preparo una query sql
-        $mia_query = "INSERT INTO modello (nome, dati, descrizione, immagine1, immagine2) VALUES ('$nome_modello','$dati_modello','$descrizione_modello','$img1', '$img2')"; // query di inserimento
+        $mia_query = "INSERT INTO modello (nome, dati, descrizione, immagine1, immagine2, user) VALUES ('$nome_modello','$dati_modello','$descrizione_modello','$img1', '$img2', '$utente_modello')"; // query di inserimento
         echo $mia_query; // stampo a video la mia query
 
         // 2) eseguo la query

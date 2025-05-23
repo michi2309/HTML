@@ -8,6 +8,7 @@
 body {
     font-family: 'Segoe UI', sans-serif;
     background-color: #e6e6e6; /* sfondo esterno */
+    /*background-image: url('./assets/sfondobianco.jpg'); */
     color: #333;
     min-height: 100vh;
 }
